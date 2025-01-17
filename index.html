@@ -106,13 +106,20 @@
         }
 
         function submitCustom() {
-            const popup = document.getElementById('popup');
-            popup.classList.remove('show');
-            setTimeout(() => {
-                popup.style.display = 'none';
-                document.getElementById('popup-overlay').style.display = 'none';
-                showSubmissionScreen();
-            }, 400);
+            // 入力値をチェック
+            const value = document.getElementById('elseText').value;
+            if (value.toLowerCase() === 'cafe au lait change to almond milk') {
+                const popup = document.getElementById('popup');
+                popup.classList.remove('show');
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                    document.getElementById('popup-overlay').style.display = 'none';
+                    showSubmissionScreen();
+                }, 400);
+            } else {
+                // 条件に合わない場合は画面遷移しない
+                alert('カスタム内容が無効です。');
+            }
         }
 
         function showSubmissionScreen() {
@@ -124,7 +131,7 @@
 
         function showElseInput() {
             const value = document.getElementById('elseText').value;
-            if (value.toLowerCase() === 'cafe au lait change to almond milk') {
+            if (value.toLowerCase() === 'cafe au lait almond milk instead of water') {
                 window.inputIsElse = true;
             } else {
                 window.inputIsElse = false;
@@ -151,6 +158,6 @@
 
     <h2>Else</h2>
     <input type="text" id="elseText" placeholder="Enter your custom base">
-    <button class="else-input" onclick="showElseInput()">Submit</button>
+    <button class="else-input" onclick="submitCustom()">Submit</button>
 </body>
 </html>
