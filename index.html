@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Order Site</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f7f2ee; /* 背景色のみ */
+            color: #4a4a4a;
+        }
+        .base-button, .custom-option, .else-input {
+            margin: 10px;
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            border: 1px solid #b3905b;
+            border-radius: 8px;
+            background-color: #fffaf3;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .base-button:hover, .custom-option:hover, .else-input:hover {
+            background-color: #fde8c4;
+            transform: translateY(-3px);
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            padding: 25px;
+            background-color: #fffdf9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            opacity: 0;
+        }
+        .popup.show {
+            display: block;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        .popup button {
+            display: block;
+            margin: 12px auto;
+        }
+        h1 {
+            color: #a67649;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #b3905b;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #b3905b;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 80%;
+            box-sizing: border-box;
+        }
+    </style>
+    <script>
+        function showPopup(base) {
+            const popup = document.getElementById('popup');
+            document.getElementById('baseName').innerText = base;
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.classList.add('show');
+            }, 0);
+        }
+
+        function submitCustom() {
+            const popup = document.getElementById('popup');
+            popup.classList.remove('show');
+            setTimeout(() => {
+                popup.style.display = 'none';
+                showSubmissionScreen();
+            }, 400);
+        }
+
+        function showSubmissionScreen() {
+            document.body.innerHTML = '<h1>送信されました</h1>';
+            if (window.inputIsElse) {
+                document.body.innerHTML += '<h2><strong>Mission Clear</strong></h2>';
+            }
+        }
+
+        function showElseInput() {
+            const value = document.getElementById('elseText').value;
+            if (value.toLowerCase() === 'cafe au lait almond milk') {
+                window.inputIsElse = true;
+            } else {
+                window.inputIsElse = false;
+            }
+            showSubmissionScreen();
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome! Choose Your Base</h1>
+    <button class="base-button" onclick="showPopup('Cafe au Lait')">Cafe au Lait</button>
+    <button class="base-button" onclick="showPopup('Milk Tea')">Milk Tea</button>
+    <button class="base-button" onclick="showPopup('Cocoa')">Cocoa</button>
+    <button class="base-button" onclick="showPopup('Matcha au Lait')">Matcha au Lait</button>
+
+    <div id="popup" class="popup">
+        <h2>Customize Your <span id="baseName"></span></h2>
+        <button class="custom-option" onclick="submitCustom()">Change to All-Milk</button>
+        <button class="custom-option" onclick="submitCustom()">Add Chocolate Sauce</button>
+        <button class="custom-option" onclick="submitCustom()">No Custom</button>
+    </div>
+
+    <h2>Else</h2>
+    <input type="text" id="elseText" placeholder="Enter your custom base">
+    <button class="else-input" onclick="showElseInput()">Submit</button>
+</body>
+</html>
