@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Order Site</title>
     <style>
+        /* 既存のCSSそのまま */
         body {
             font-family: 'Trebuchet MS', sans-serif;
             text-align: center;
             padding: 20px;
-            background-color: #f7f2ee; /* 背景色のみ */
+            background-color: #f7f2ee;
             color: #4a4a4a;
         }
         .base-button, .custom-option, .else-input {
@@ -68,6 +69,7 @@
         }
     </style>
     <script>
+        // ポップアップを表示
         function showPopup(base) {
             const popup = document.getElementById('popup');
             document.getElementById('baseName').innerText = base;
@@ -75,17 +77,38 @@
             setTimeout(() => {
                 popup.classList.add('show');
             }, 0);
+
+            // 外部クリックでポップアップを閉じる
+            document.addEventListener('click', closePopupOnOutsideClick);
         }
 
-        function submitCustom() {
+        // ポップアップを閉じる
+        function closePopup() {
             const popup = document.getElementById('popup');
             popup.classList.remove('show');
             setTimeout(() => {
                 popup.style.display = 'none';
-                showSubmissionScreen();
             }, 400);
+
+            // イベントリスナーを削除
+            document.removeEventListener('click', closePopupOnOutsideClick);
         }
 
+        // ポップアップ外部クリックで閉じる処理
+        function closePopupOnOutsideClick(event) {
+            const popup = document.getElementById('popup');
+            if (!popup.contains(event.target)) {
+                closePopup();
+            }
+        }
+
+        // カスタム送信
+        function submitCustom() {
+            closePopup();
+            showSubmissionScreen();
+        }
+
+        // 送信画面表示
         function showSubmissionScreen() {
             document.body.innerHTML = '<h1>送信されました</h1>';
             if (window.inputIsElse) {
@@ -93,14 +116,15 @@
             }
         }
 
+        // Else用送信
         function showElseInput() {
             const value = document.getElementById('elseText').value;
             if (value.toLowerCase() === 'cafe au lait change to almond milk') {
                 window.inputIsElse = true;
+                showSubmissionScreen();
             } else {
-                window.inputIsElse = false;
+                alert('正しい内容を入力してください！');
             }
-            showSubmissionScreen();
         }
     </script>
 </head>
