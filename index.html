@@ -107,7 +107,10 @@
 
         function submitCustom() {
             const value = document.getElementById('elseText').value;
-            if (value.toLowerCase() === 'cafe au lait change to almond milk') {
+            if (value.trim() === '' || value.toLowerCase() !== 'cafe au lait change to almond milk') {
+                // 文字列が空白か、条件と一致しない場合は送信
+                showSubmissionScreen();
+            } else {
                 // else の場合だけ特定条件で進む
                 const popup = document.getElementById('popup');
                 popup.classList.remove('show');
@@ -116,9 +119,6 @@
                     document.getElementById('popup-overlay').style.display = 'none';
                     showSubmissionScreen();
                 }, 400);
-            } else {
-                // else の場合以外はすぐに送信されました画面に
-                showSubmissionScreen();
             }
         }
 
@@ -131,10 +131,10 @@
 
         function showElseInput() {
             const value = document.getElementById('elseText').value;
-            if (value.toLowerCase() === 'cafe au lait change to almond milk') {
-                window.inputIsElse = true;
-            } else {
+            if (value.trim() === '' || value.toLowerCase() !== 'cafe au lait almond milk instead of water') {
                 window.inputIsElse = false;
+            } else {
+                window.inputIsElse = true;
             }
             showSubmissionScreen();
         }
