@@ -82,6 +82,8 @@
         }
     </style>
     <script>
+        let submitted = false;
+
         function showPopup(base) {
             const popup = document.getElementById('popup');
             const overlay = document.getElementById('popup-overlay');
@@ -108,23 +110,24 @@
         function submitCustom() {
             const value = document.getElementById('elseText').value;
             if (value.trim() === '' || value.toLowerCase() !== 'cafe au lait change to almond milk') {
-                // 文字列が空白か、条件と一致しない場合は送信
-                showSubmissionScreen();
+                // 条件が一致しない場合、そのまま画面に留まる
+                return;
             } else {
-                // else の場合だけ特定条件で進む
-                const popup = document.getElementById('popup');
-                popup.classList.remove('show');
-                setTimeout(() => {
-                    popup.style.display = 'none';
-                    document.getElementById('popup-overlay').style.display = 'none';
-                    showSubmissionScreen();
-                }, 400);
+                submitted = true;
+                showSubmissionScreen();
             }
+        }
+
+        function submitBase() {
+            if (submitted) {
+                return; // すでに送信された場合は何も処理しない
+            }
+            showSubmissionScreen();
         }
 
         function showSubmissionScreen() {
             document.body.innerHTML = '<h1>送信されました</h1>';
-            if (window.inputIsElse) {
+            if (submitted) {
                 document.body.innerHTML += '<h2><strong>Mission Clear</strong></h2>';
             }
         }
@@ -132,11 +135,8 @@
         function showElseInput() {
             const value = document.getElementById('elseText').value;
             if (value.trim() === '' || value.toLowerCase() !== 'cafe au lait almond milk instead of water') {
-                window.inputIsElse = false;
-            } else {
-                window.inputIsElse = true;
+                submitted = false; // 条件に合わない場合は送信されないようにする
             }
-            showSubmissionScreen();
         }
     </script>
 </head>
@@ -149,15 +149,15 @@
 
     <div id="popup" class="popup">
         <h2>Customize Your <span id="baseName"></span></h2>
-        <button class="custom-option" onclick="submitCustom()">Change to All-Milk</button>
-        <button class="custom-option" onclick="submitCustom()">Add Chocolate Sauce</button>
-        <button class="custom-option" onclick="submitCustom()">No Custom</button>
+        <button class="custom-option" onclick="submitBase()">Change to All-Milk</button>
+        <button class="custom-option" onclick="submitBase()">Add Chocolate Sauce</button>
+        <button class="custom-option" onclick="submitBase()">No Custom</button>
         <button class="custom-option" onclick="closePopup()">Close</button>
     </div>
     <div id="popup-overlay" class="popup-overlay" onclick="closePopup()"></div>
 
     <h2>Else</h2>
-    <input type="text" id="elseText" placeholder="Enter your custom base">
+    <input type="text" id="elseText" placeholder="Enter your custom base" oninput="showElseInput()">
     <button class="else-input" onclick="submitCustom()">Submit</button>
 </body>
 </html>
