@@ -10,22 +10,30 @@
             text-align: center;
             padding: 20px;
             background-color: #f7f2ee;
+            background-image: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png');
+            background-size: 40px 40px;
             color: #4a4a4a;
+        }
+        h1, h2 {
+            color: #a67649;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
         .base-button, .custom-option, .else-input {
             margin: 10px;
             padding: 12px 25px;
             font-size: 18px;
             cursor: pointer;
-            border: 1px solid #b3905b;
+            border: 2px solid #b3905b;
             border-radius: 8px;
             background-color: #fffaf3;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
         }
         .base-button:hover, .custom-option:hover, .else-input:hover {
             background-color: #fde8c4;
             transform: translateY(-3px);
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
         }
         .popup {
             display: none;
@@ -63,14 +71,6 @@
         .popup-overlay.show {
             display: block;
         }
-        h1 {
-            color: #a67649;
-            margin-bottom: 20px;
-        }
-        h2 {
-            color: #b3905b;
-            margin-bottom: 15px;
-        }
         input[type="text"] {
             padding: 10px;
             font-size: 16px;
@@ -79,6 +79,11 @@
             margin-bottom: 10px;
             width: 80%;
             box-sizing: border-box;
+            transition: border 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #a67649;
+            outline: none;
         }
     </style>
     <script>
@@ -109,8 +114,7 @@
 
         function submitCustom() {
             const value = document.getElementById('elseText').value;
-            if (value.trim() === '' || value.toLowerCase() !== 'cafe au lait almond milk instead of water') {
-                // 条件が一致しない場合、そのまま画面に留まる
+            if (value.trim() === '' || value.toLowerCase() !== 'cafe au lait change to almond milk instead of water') {
                 return;
             } else {
                 submitted = true;
@@ -120,7 +124,7 @@
 
         function submitBase() {
             if (submitted) {
-                return; // すでに送信された場合は何も処理しない
+                return;
             }
             showSubmissionScreen();
         }
@@ -134,8 +138,8 @@
 
         function showElseInput() {
             const value = document.getElementById('elseText').value;
-            if (value.trim() === '' || value.toLowerCase() !== 'cafe au lait almond milk instead of water') {
-                submitted = false; // 条件に合わない場合は送信されないようにする
+            if (value.trim() === '' || value.toLowerCase() !== 'cafe au lait change to almond milk instead of water') {
+                submitted = false;
             }
         }
     </script>
